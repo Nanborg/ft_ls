@@ -6,13 +6,13 @@
 /*   By: nicolsan <nicolsan@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/28 20:54:23 by nicolsan          #+#    #+#             */
-/*   Updated: 2026/10/28 23:40:32 by nicolsan         ###   ########.fr       */
+/*   Updated: 2026/10/29 00:02:04 by nicolsan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-/* Return the entries of path as a list, hidden ones only with -a. */
+/* Return opendir(path) as a list, hidden with (-a) */
 t_list	*ft_read_directory(const char *path, t_options *opts)
 {
 	DIR				*dir;
