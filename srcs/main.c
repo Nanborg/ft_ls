@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                              +:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nicolsan <nicolsan@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/28 20:54:23 by nicolsan          #+#    #+#             */
-/*   Updated: 2026/10/28 20:54:23 by nicolsan         ###   ########.fr       */
+/*   Updated: 2026/10/28 23:45:39 by nicolsan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,16 @@
 int	main(int argc, char **argv)
 {
 	t_options	opts;
+	t_list		*list;
 
-	if (ft_parse_options(argc, argv, &opts) == -1)
-		return (1);
-	ft_dispatch_arguments(argc, argv, &opts);
+	(void)argc;
+	(void)argv;
+	opts = (t_options){0, 0, 0, 0, 0};
+	list = ft_read_directory(".", &opts);
+	while (list)
+	{
+		ft_putendl_fd(list->content, 1);
+		list = list->next;
+	}
 	return (0);
 }
