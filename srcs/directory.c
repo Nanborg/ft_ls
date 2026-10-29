@@ -6,11 +6,48 @@
 /*   By: nicolsan <nicolsan@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/28 20:54:23 by nicolsan          #+#    #+#             */
-/*   Updated: 2026/10/29 00:02:04 by nicolsan         ###   ########.fr       */
+/*   Updated: 2026/10/29 11:35:12 by nicolsan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
+
+/* Return new str "dir/name" */
+static char	*ft_make_path(const char *dir, const char *name)
+{
+	char	*tmp;
+	char	*path;
+
+	tmp = ft_strjoin(dir, "/");
+	if (!tmp)
+		return (NULL);
+	path = ft_strjoin(tmp, name);
+	free(tmp);
+	return (path);
+}
+
+/* Add one file entry to the list */
+static int	ft_add_entry(t_list **list, const char *dir, const char *name)
+{
+	t_entry	*entry;
+	t_list	*node;
+	char	*full_path;
+
+	full_path = ft_make_path(dir, name);
+	entry = ft_calloc(1, sizeof(*entry));
+	node = ft_lstnew(entry);
+	if (!full_path || !entry || !node
+		|| ft_fill_entry(entry, full_path, name) == -1)
+	{
+		free(full_path);
+		free(node);
+		ft_free_entry(entry);
+		return (-1);
+	}
+	free(full_path);
+	ft_lstadd_back(list, node);
+	return (0);
+}
 
 /* Return opendir(path) as a list, hidden with (-a) */
 t_list	*ft_read_directory(const char *path, t_options *opts)
@@ -26,8 +63,13 @@ t_list	*ft_read_directory(const char *path, t_options *opts)
 	de = readdir(dir);
 	while (de)
 	{
-		if (opts->a || de->d_name[0] != '.')
-			ft_lstadd_back(&list, ft_lstnew(ft_strdup(de->d_name)));
+		if ((opts->a || de->d_name[0] != '.')
+			&& ft_add_entry(&list, path, de->d_name) == -1)
+		{
+			ft_free_entries(&list);
+			closedir(dir);
+			return (NULL);
+		}
 		de = readdir(dir);
 	}
 	closedir(dir);
