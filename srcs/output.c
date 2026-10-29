@@ -6,16 +6,26 @@
 /*   By: nicolsan <nicolsan@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/28 20:54:23 by nicolsan          #+#    #+#             */
-/*   Updated: 2026/10/29 10:11:04 by nicolsan         ###   ########.fr       */
+/*   Updated: 2026/10/29 12:43:17 by nicolsan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
+/* Long format with -l, else name */
 void	ft_print_entries(t_list *entries, t_options *opts)
 {
-	(void)entries;
-	(void)opts;
+	t_entry	*entry;
+
+	while (entries)
+	{
+		entry = entries->content;
+		if (opts->l)
+			ft_print_long(entry);
+		else
+			ft_putendl_fd(entry->name, 1);
+		entries = entries->next;
+	}
 }
 
 /* Return the type letter of mode */

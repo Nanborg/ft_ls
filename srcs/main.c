@@ -6,7 +6,7 @@
 /*   By: nicolsan <nicolsan@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/28 20:54:23 by nicolsan          #+#    #+#             */
-/*   Updated: 2026/10/29 12:29:04 by nicolsan         ###   ########.fr       */
+/*   Updated: 2026/10/29 12:45:34 by nicolsan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,6 @@ int	main(int argc, char **argv)
 		return (1);
 	list = ft_read_directory(".", &opts);
 	ft_sort_entries(&list, &opts);
-	while (list)
-	{
-		ft_print_long(list->content);
-		list = list->next;
-	}
+	ft_print_entries(list, &opts);
 	return (0);
 }
