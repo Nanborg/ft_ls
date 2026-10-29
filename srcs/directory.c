@@ -6,7 +6,7 @@
 /*   By: nicolsan <nicolsan@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/28 20:54:23 by nicolsan          #+#    #+#             */
-/*   Updated: 2026/10/29 13:26:55 by nicolsan         ###   ########.fr       */
+/*   Updated: 2026/10/29 13:51:11 by nicolsan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,33 +49,31 @@ static int	ft_add_entry(t_list **list, const char *dir, const char *name)
 	return (0);
 }
 
-/* Return opendir(path) as a list, hidden with (-a) */
-t_list	*ft_read_directory(const char *path, t_options *opts)
+/* Fill list from path, skip hidden unless (-a) */
+int	ft_read_directory(const char *path, t_options *opts, t_list **list)
 {
 	DIR				*dir;
 	struct dirent	*de;
-	t_list			*list;
 
 	dir = opendir(path);
 	if (!dir)
 	{
 		ft_ls_error((char *)path);
-		return (NULL);
+		return (-1);
 	}
-
-	list = NULL;
+	*list = NULL;
 	de = readdir(dir);
 	while (de)
 	{
 		if ((opts->a || de->d_name[0] != '.')
-			&& ft_add_entry(&list, path, de->d_name) == -1)
+			&& ft_add_entry(list, path, de->d_name) == -1)
 		{
-			ft_free_entries(&list);
+			ft_free_entries(list);
 			closedir(dir);
-			return (NULL);
+			return (-1);
 		}
 		de = readdir(dir);
 	}
 	closedir(dir);
-	return (list);
+	return (0);
 }
