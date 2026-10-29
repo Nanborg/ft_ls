@@ -56,7 +56,14 @@ static void	ft_update_width(t_entry *entry, t_width *w)
 		w->owner = ft_owner_len(entry->st.st_uid);
 	if (ft_group_len(entry->st.st_gid) > w->group)
 		w->group = ft_group_len(entry->st.st_gid);
-	if (ft_numlen(entry->st.st_size) > w->size)
+	if (S_ISCHR(entry->st.st_mode) || S_ISBLK(entry->st.st_mode))
+	{
+		if (ft_numlen(major(entry->st.st_rdev)) > w->major)
+			w->major = ft_numlen(major(entry->st.st_rdev));
+		if (ft_numlen(minor(entry->st.st_rdev)) > w->minor)
+			w->minor = ft_numlen(minor(entry->st.st_rdev));
+	}
+	else if (ft_numlen(entry->st.st_size) > w->size)
 		w->size = ft_numlen(entry->st.st_size);
 }
 
@@ -65,11 +72,13 @@ t_width	ft_get_width(t_list *entries)
 {
 	t_width	w;
 
-	w = (t_width){0, 0, 0, 0};
+	w = (t_width){0, 0, 0, 0, 0, 0};
 	while (entries)
 	{
 		ft_update_width(entries->content, &w);
 		entries = entries->next;
 	}
+	if (w.major + w.minor + 2 > w.size && w.major)
+		w.size = w.major + w.minor + 2;
 	return (w);
 }

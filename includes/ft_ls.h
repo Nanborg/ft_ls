@@ -6,7 +6,7 @@
 /*   By: nicolsan <nicolsan@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/28 20:54:23 by nicolsan          #+#    #+#             */
-/*   Updated: 2026/10/29 21:48:50 by nicolsan         ###   ########.fr       */
+/*   Updated: 2026/10/29 22:05:56 by nicolsan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <time.h>
 # include <unistd.h>
 # include "../libft/libft.h"
+# include <sys/sysmacros.h>
 
 typedef struct s_options
 {
@@ -46,6 +47,8 @@ typedef struct s_width
 	int	owner;
 	int	group;
 	int	size;
+	int	major;
+	int	minor;
 }	t_width;
 
 t_width	ft_get_width(t_list *entries);
@@ -70,5 +73,6 @@ int		ft_owner_len(uid_t uid);
 int		ft_group_len(gid_t gid);
 void	ft_put_spaces(int n);
 void	ft_print_long(t_entry *entry, t_width *w);
+void	ft_print_size(t_entry *entry, t_width *w);
 
 #endif

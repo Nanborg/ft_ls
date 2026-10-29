@@ -6,7 +6,7 @@
 /*   By: nicolsan <nicolsan@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/28 20:54:23 by nicolsan          #+#    #+#             */
-/*   Updated: 2026/10/29 21:51:46 by nicolsan         ###   ########.fr       */
+/*   Updated: 2026/10/29 22:10:12 by nicolsan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,23 @@ void	ft_put_spaces(int n)
 	}
 }
 
-/* Print the mode string of one entry */
+/* Print size, (major, minor) */
+/* Print size, or "major, minor" for a device */
+void	ft_print_size(t_entry *entry, t_width *w)
+{
+	if (S_ISCHR(entry->st.st_mode) || S_ISBLK(entry->st.st_mode))
+	{
+		ft_put_spaces(w->major - ft_numlen(major(entry->st.st_rdev)));
+		ft_putnbr_fd(major(entry->st.st_rdev), 1);
+		ft_putstr_fd(", ", 1);
+		ft_put_spaces(w->minor - ft_numlen(minor(entry->st.st_rdev)));
+		ft_putnbr_fd(minor(entry->st.st_rdev), 1);
+		return ;
+	}
+	ft_put_spaces(w->size - ft_numlen(entry->st.st_size));
+	ft_putnbr_fd(entry->st.st_size, 1);
+}
+
 /* Print one entry in long format, columns padded by w */
 void	ft_print_long(t_entry *entry, t_width *w)
 {
@@ -126,8 +142,7 @@ void	ft_print_long(t_entry *entry, t_width *w)
 	ft_put_group(entry->st.st_gid);
 	ft_put_spaces(w->group - ft_group_len(entry->st.st_gid));
 	ft_putstr_fd(" ", 1);
-	ft_put_spaces(w->size - ft_numlen(entry->st.st_size));
-	ft_putnbr_fd(entry->st.st_size, 1);
+	ft_print_size(entry, w);
 	ft_putstr_fd(" ", 1);
 	date = ctime(&entry->st.st_mtime);
 	write(1, date + 4, 12);
