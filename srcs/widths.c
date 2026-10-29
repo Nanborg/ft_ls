@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   widths.c                                           :+:      :+:    :+:   */
+/*   width.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nicolsan <nicolsan@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -48,7 +48,7 @@ int	ft_group_len(gid_t gid)
 }
 
 /* Max out each width with entry values */
-static void	ft_update_widths(t_entry *entry, t_widths *w)
+static void	ft_update_width(t_entry *entry, t_width *w)
 {
 	if (ft_numlen(entry->st.st_nlink) > w->nlink)
 		w->nlink = ft_numlen(entry->st.st_nlink);
@@ -60,15 +60,15 @@ static void	ft_update_widths(t_entry *entry, t_widths *w)
 		w->size = ft_numlen(entry->st.st_size);
 }
 
-/* Compute the collumn widths of entries */
-t_widths	ft_get_widths(t_list *entries)
+/* Compute the collumn width of entries */
+t_width	ft_get_width(t_list *entries)
 {
-	t_widths	w;
+	t_width	w;
 
-	w = (t_widths){0, 0, 0, 0};
+	w = (t_width){0, 0, 0, 0};
 	while (entries)
 	{
-		ft_update_widths(entries->content, &w);
+		ft_update_width(entries->content, &w);
 		entries = entries->next;
 	}
 	return (w);

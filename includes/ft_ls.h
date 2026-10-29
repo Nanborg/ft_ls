@@ -6,7 +6,7 @@
 /*   By: nicolsan <nicolsan@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/28 20:54:23 by nicolsan          #+#    #+#             */
-/*   Updated: 2026/10/29 21:42:39 by nicolsan         ###   ########.fr       */
+/*   Updated: 2026/10/29 21:48:50 by nicolsan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,15 @@ typedef struct s_entry
 	struct stat	st;
 }	t_entry;
 
-typedef struct s_widths
+typedef struct s_width
 {
 	int	nlink;
 	int	owner;
 	int	group;
 	int	size;
-}	t_widths;
+}	t_width;
 
+t_width	ft_get_width(t_list *entries);
 int		ft_parse_options(int argc, char **argv, t_options *opts);
 int		ft_read_directory(const char *path, t_options *opts, t_list **list);
 int		ft_fill_entry(t_entry *entry, const char *path, const char *name);
@@ -67,8 +68,7 @@ void	ft_print_total(t_list *entries);
 int		ft_numlen(unsigned long n);
 int		ft_owner_len(uid_t uid);
 int		ft_group_len(gid_t gid);
-t_widths	ft_get_widths(t_list *entries);
 void	ft_put_spaces(int n);
-void	ft_print_long(t_entry *entry, t_widths *w);
+void	ft_print_long(t_entry *entry, t_width *w);
 
 #endif

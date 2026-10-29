@@ -6,7 +6,7 @@
 /*   By: nicolsan <nicolsan@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/28 20:54:23 by nicolsan          #+#    #+#             */
-/*   Updated: 2026/10/29 21:44:34 by nicolsan         ###   ########.fr       */
+/*   Updated: 2026/10/29 21:51:46 by nicolsan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 /* Long format with -l, else name */
 void	ft_print_entries(t_list *entries, t_options *opts)
 {
-	t_entry		*entry;
-	t_widths	w;
+	t_entry	*entry;
+	t_width	w;
 
-	w = ft_get_widths(entries);
+	w = ft_get_width(entries);
 	while (entries)
 	{
 		entry = entries->content;
@@ -109,7 +109,7 @@ void	ft_put_spaces(int n)
 
 /* Print the mode string of one entry */
 /* Print one entry in long format, columns padded by w */
-void	ft_print_long(t_entry *entry, t_widths *w)
+void	ft_print_long(t_entry *entry, t_width *w)
 {
 	char	str[11];
 	char	*date;
