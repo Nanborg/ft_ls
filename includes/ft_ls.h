@@ -6,7 +6,7 @@
 /*   By: nicolsan <nicolsan@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/28 20:54:23 by nicolsan          #+#    #+#             */
-/*   Updated: 2026/10/29 13:59:32 by nicolsan         ###   ########.fr       */
+/*   Updated: 2026/10/29 14:13:56 by nicolsan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,5 +52,6 @@ void	ft_free_entries(t_list **entries);
 void	ft_print_long(t_entry *entry);
 void	ft_free_entry(void *content);
 int		ft_is_dir(char *path);
+int		ft_print_file(char *path, t_options *opts);
 
 #endif

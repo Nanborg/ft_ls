@@ -6,7 +6,7 @@
 /*   By: nicolsan <nicolsan@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/28 20:54:23 by nicolsan          #+#    #+#             */
-/*   Updated: 2026/10/29 14:04:28 by nicolsan         ###   ########.fr       */
+/*   Updated: 2026/10/29 14:15:10 by nicolsan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,7 @@ int	main(int argc, char **argv)
 		return (2);
 	}
 	if (!ft_is_dir(path))
-	{
-		ft_putendl_fd(path, 1);
-		return (0);
-	}
+		return (ft_print_file(path, &opts) == -1);
 	if (ft_read_directory(path, &opts, &list) == -1)
 		return (2);
 	ft_sort_entries(&list, &opts);
