@@ -6,7 +6,7 @@
 /*   By: nicolsan <nicolsan@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/28 20:54:23 by nicolsan          #+#    #+#             */
-/*   Updated: 2026/10/29 14:13:56 by nicolsan         ###   ########.fr       */
+/*   Updated: 2026/10/29 15:36:05 by nicolsan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ typedef struct s_entry
 }	t_entry;
 
 int		ft_parse_options(int argc, char **argv, t_options *opts);
-void	ft_dispatch_arguments(int argc, char **argv, t_options *opts);
 int		ft_read_directory(const char *path, t_options *opts, t_list **list);
 int		ft_fill_entry(t_entry *entry, const char *path, const char *name);
 void	ft_print_entries(t_list *entries, t_options *opts);
@@ -53,5 +52,6 @@ void	ft_print_long(t_entry *entry);
 void	ft_free_entry(void *content);
 int		ft_is_dir(char *path);
 int		ft_print_file(char *path, t_options *opts);
-
+int		ft_print_files(int argc, char **argv, int idx, t_options *opts);
+int		ft_dispatch_arguments(int argc, char **argv, int idx, t_options *opts);
 #endif
