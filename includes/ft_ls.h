@@ -6,7 +6,7 @@
 /*   By: nicolsan <nicolsan@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/28 20:54:23 by nicolsan          #+#    #+#             */
-/*   Updated: 2026/10/29 15:36:05 by nicolsan         ###   ########.fr       */
+/*   Updated: 2026/10/29 16:00:56 by nicolsan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,7 @@ int		ft_is_dir(char *path);
 int		ft_print_file(char *path, t_options *opts);
 int		ft_print_files(int argc, char **argv, int idx, t_options *opts);
 int		ft_dispatch_arguments(int argc, char **argv, int idx, t_options *opts);
+int		ft_has_file(int argc, char **argv, int idx);
+int		ft_print_dir(char *path, t_options *opts, int header);
+
 #endif

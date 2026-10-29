@@ -6,7 +6,7 @@
 /*   By: nicolsan <nicolsan@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/28 20:54:23 by nicolsan          #+#    #+#             */
-/*   Updated: 2026/10/29 15:35:27 by nicolsan         ###   ########.fr       */
+/*   Updated: 2026/10/29 16:14:22 by nicolsan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,29 +61,58 @@ int	ft_print_files(int argc, char **argv, int idx, t_options *opts)
 	return (ret);
 }
 
-int	ft_dispatch_arguments(int argc, char **argv, int idx, t_options *opts)
+/* Verify if any arg in file */
+int ft_has_file(int argc, char **argv, int idx)
+{
+	while (idx < argc)
+	{
+		if (access(argv[idx], F_OK) == 0 && !ft_is_dir(argv[idx]))
+			return (1);
+		idx++;
+	}
+	return (0);
+}
+
+/* Print one dir arg, header if many */
+int	ft_print_dir(char *path, t_options *opts, int header)
 {
 	t_list	*list;
 	int		ret;
-	int		many;
+
+	if (header)
+	{
+		ft_putstr_fd(path, 1);
+		ft_putendl_fd(":", 1);
+	}
+	list = NULL;
+	ret = 0;
+	if (ft_read_directory(path, opts, &list) == -1)
+		ret = 2;
+	ft_sort_entries(&list, opts);
+	ft_print_entries(list, opts);
+	ft_free_entries(&list);
+	return (ret);
+}
+
+/* Print each directory arg, with header if many */
+int	ft_dispatch_arguments(int argc, char **argv, int idx, t_options *opts)
+{
+	int	ret;
+	int	printed;
+	int many;
 
 	ret = ft_print_files(argc, argv, idx, opts);
+	printed = ft_has_file(argc, argv, idx);
 	many = (argc - idx > 1);
 	while (idx < argc)
 	{
 		if (access(argv[idx], F_OK) == 0 && ft_is_dir(argv[idx]))
 		{
-			if (many)
-			{
-				ft_putstr_fd(argv[idx], 1);
-				ft_putendl_fd(":", 1);
-			}
-			list = NULL;
-			if (ft_read_directory(argv[idx], opts, &list) == -1)
+			if (printed)
+				ft_putchar_fd('\n', 1);
+			if (ft_print_dir(argv[idx], opts, many))
 				ret = 2;
-			ft_sort_entries(&list, opts);
-			ft_print_entries(list, opts);
-			ft_free_entries(&list);
+			printed = 1;
 		}
 		idx++;
 	}
