@@ -6,7 +6,7 @@
 /*   By: nicolsan <nicolsan@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/28 20:54:23 by nicolsan          #+#    #+#             */
-/*   Updated: 2026/10/29 13:09:42 by nicolsan         ###   ########.fr       */
+/*   Updated: 2026/10/29 13:12:19 by nicolsan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,10 @@ int	main(int argc, char **argv)
 	idx = ft_parse_options(argc, argv, &opts);
 	if (idx == -1)
 		return (1);
-	list = ft_read_directory(".", &opts);
+	if (idx < argc)
+		list = ft_read_directory(argv[idx], &opts);
+	else
+		list = ft_read_directory(".", &opts);
 	ft_sort_entries(&list, &opts);
 	ft_print_entries(list, &opts);
 	ft_free_entries(&list);
