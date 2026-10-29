@@ -1,7 +1,7 @@
 NAME = ft_ls
 
 SRCS = main.c options.c arguments.c directory.c file_info.c \
-	output.c sort.c recursive.c errors.c memory.c
+	output.c sort.c recursive.c errors.c memory.c output_total.c
 SRCS_DIR = ./srcs
 OBJ_DIR = ./obj
 OBJS = $(addprefix $(OBJ_DIR)/,$(SRCS:.c=.o))
