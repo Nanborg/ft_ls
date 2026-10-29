@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_ls.h                                             +:      :+:    :+:   */
+/*   ft_ls.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nicolsan <nicolsan@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/28 20:54:23 by nicolsan          #+#    #+#             */
-/*   Updated: 2026/10/28 20:54:23 by nicolsan         ###   ########.fr       */
+/*   Updated: 2026/10/29 00:30:41 by nicolsan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,5 +50,6 @@ void	ft_sort_entries(t_list **entries, t_options *opts);
 void	ft_recursive_display(t_list *entries, t_options *opts);
 void	ft_ls_error(const char *context);
 void	ft_free_entries(t_list **entries);
+void	ft_print_long(t_entry *entry);
 
 #endif

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   output.c                                            +:      :+:    :+:   */
+/*   output.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nicolsan <nicolsan@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/28 20:54:23 by nicolsan          #+#    #+#             */
-/*   Updated: 2026/10/28 20:54:23 by nicolsan         ###   ########.fr       */
+/*   Updated: 2026/10/29 10:11:04 by nicolsan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,4 +16,95 @@ void	ft_print_entries(t_list *entries, t_options *opts)
 {
 	(void)entries;
 	(void)opts;
+}
+
+/* Return the type letter of mode */
+static char	ft_type_char(mode_t mode)
+{
+	if (S_ISDIR(mode))
+		return ('d');
+	if (S_ISLNK(mode))
+		return ('l');
+	if (S_ISCHR(mode))
+		return ('c');
+	if (S_ISBLK(mode))
+		return ('b');
+	if (S_ISFIFO(mode))
+		return ('p');
+	if (S_ISSOCK(mode))
+		return ('s');
+	return ('-');
+}
+
+/* Fill str with the rwx chars of mode */
+static void	ft_perm_chars(mode_t mode, char *str)
+{
+	const char	*rwx = "rwxrwxrwx";
+	int			i;
+
+	i = 0;
+	while (i < 9)
+	{
+		if (mode & (1 << (8 - i)))
+			str[i] = rwx[i];
+		else
+			str[i] = '-';
+		i++;
+	}
+}
+
+/* Build the 10-char string of mode -rw-r--r-- */
+static void	ft_mode_string(mode_t mode, char *str)
+{
+	str[0] = ft_type_char(mode);
+	ft_perm_chars(mode, str + 1);
+	str[10] = '\0';
+}
+
+/* Print owner name / uid */
+static void	ft_put_owner(uid_t uid)
+{
+	struct passwd	*pw;
+
+	pw = getpwuid(uid);
+	if (pw)
+		ft_putstr_fd(pw->pw_name, 1);
+	else
+		ft_putnbr_fd(uid, 1);
+}
+
+/* Print groupe name / gid */
+static void	ft_put_group(gid_t gid)
+{
+	struct group	*gr;
+
+	gr = getgrgid(gid);
+	if (gr)
+		ft_putstr_fd(gr->gr_name, 1);
+	else
+		ft_putnbr_fd(gid, 1);
+}
+
+/* Print the mode string of one entry */
+void	ft_print_long(t_entry *entry)
+{
+	char	str[11];
+	char	*date;
+
+	ft_mode_string(entry->st.st_mode, str);
+	ft_putstr_fd(str, 1);
+	ft_putstr_fd(" ", 1);
+	ft_putnbr_fd(entry->st.st_nlink, 1);
+	ft_putstr_fd(" ", 1);
+	ft_put_owner(entry->st.st_uid);
+	ft_putstr_fd(" ", 1);
+	ft_put_group(entry->st.st_gid);
+	ft_putstr_fd(" ", 1);
+	ft_putnbr_fd(entry->st.st_size, 1);
+	ft_putstr_fd(" ", 1);
+	date = ctime(&entry->st.st_mtime);
+	write(1, date + 4, 12);
+	ft_putstr_fd(" ", 1);
+	ft_putstr_fd(entry->name, 1);
+	ft_putstr_fd("\n", 1);
 }
