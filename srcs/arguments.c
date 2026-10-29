@@ -6,7 +6,7 @@
 /*   By: nicolsan <nicolsan@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/28 20:54:23 by nicolsan          #+#    #+#             */
-/*   Updated: 2026/10/29 16:14:22 by nicolsan         ###   ########.fr       */
+/*   Updated: 2026/10/29 18:52:25 by nicolsan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,8 @@ int	ft_print_dir(char *path, t_options *opts, int header)
 		ret = 2;
 	ft_sort_entries(&list, opts);
 	ft_print_entries(list, opts);
+	if (opts->upper_r && ft_recursive_display(list, opts))
+		ret = 2;
 	ft_free_entries(&list);
 	return (ret);
 }
@@ -103,7 +105,7 @@ int	ft_dispatch_arguments(int argc, char **argv, int idx, t_options *opts)
 
 	ret = ft_print_files(argc, argv, idx, opts);
 	printed = ft_has_file(argc, argv, idx);
-	many = (argc - idx > 1);
+	many = (argc - idx > 1 || opts->upper_r);
 	while (idx < argc)
 	{
 		if (access(argv[idx], F_OK) == 0 && ft_is_dir(argv[idx]))
