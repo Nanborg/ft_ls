@@ -6,7 +6,7 @@
 /*   By: nicolsan <nicolsan@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/28 20:54:23 by nicolsan          #+#    #+#             */
-/*   Updated: 2026/10/29 19:06:58 by nicolsan         ###   ########.fr       */
+/*   Updated: 2026/10/29 21:42:39 by nicolsan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,14 @@ typedef struct s_entry
 	struct stat	st;
 }	t_entry;
 
+typedef struct s_widths
+{
+	int	nlink;
+	int	owner;
+	int	group;
+	int	size;
+}	t_widths;
+
 int		ft_parse_options(int argc, char **argv, t_options *opts);
 int		ft_read_directory(const char *path, t_options *opts, t_list **list);
 int		ft_fill_entry(t_entry *entry, const char *path, const char *name);
@@ -48,7 +56,6 @@ void	ft_sort_entries(t_list **entries, t_options *opts);
 int		ft_recursive_display(t_list *entries, t_options *opts);
 void	ft_ls_error(char *context);
 void	ft_free_entries(t_list **entries);
-void	ft_print_long(t_entry *entry);
 void	ft_free_entry(void *content);
 int		ft_is_dir(char *path);
 int		ft_print_file(char *path, t_options *opts);
@@ -57,5 +64,11 @@ int		ft_dispatch_arguments(int argc, char **argv, int idx, t_options *opts);
 int		ft_has_file(int argc, char **argv, int idx);
 int		ft_print_dir(char *path, t_options *opts, int header);
 void	ft_print_total(t_list *entries);
+int		ft_numlen(unsigned long n);
+int		ft_owner_len(uid_t uid);
+int		ft_group_len(gid_t gid);
+t_widths	ft_get_widths(t_list *entries);
+void	ft_put_spaces(int n);
+void	ft_print_long(t_entry *entry, t_widths *w);
 
 #endif

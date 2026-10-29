@@ -6,7 +6,7 @@
 /*   By: nicolsan <nicolsan@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/28 20:54:23 by nicolsan          #+#    #+#             */
-/*   Updated: 2026/10/29 12:43:17 by nicolsan         ###   ########.fr       */
+/*   Updated: 2026/10/29 21:44:34 by nicolsan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,15 @@
 /* Long format with -l, else name */
 void	ft_print_entries(t_list *entries, t_options *opts)
 {
-	t_entry	*entry;
+	t_entry		*entry;
+	t_widths	w;
 
+	w = ft_get_widths(entries);
 	while (entries)
 	{
 		entry = entries->content;
 		if (opts->l)
-			ft_print_long(entry);
+			ft_print_long(entry, &w);
 		else
 			ft_putendl_fd(entry->name, 1);
 		entries = entries->next;
@@ -95,8 +97,19 @@ static void	ft_put_group(gid_t gid)
 		ft_putnbr_fd(gid, 1);
 }
 
+/* Print n spaces */
+void	ft_put_spaces(int n)
+{
+	while (n > 0)
+	{
+		ft_putchar_fd(' ', 1);
+		n--;
+	}
+}
+
 /* Print the mode string of one entry */
-void	ft_print_long(t_entry *entry)
+/* Print one entry in long format, columns padded by w */
+void	ft_print_long(t_entry *entry, t_widths *w)
 {
 	char	str[11];
 	char	*date;
@@ -104,12 +117,16 @@ void	ft_print_long(t_entry *entry)
 	ft_mode_string(entry->st.st_mode, str);
 	ft_putstr_fd(str, 1);
 	ft_putstr_fd(" ", 1);
+	ft_put_spaces(w->nlink - ft_numlen(entry->st.st_nlink));
 	ft_putnbr_fd(entry->st.st_nlink, 1);
 	ft_putstr_fd(" ", 1);
 	ft_put_owner(entry->st.st_uid);
+	ft_put_spaces(w->owner - ft_owner_len(entry->st.st_uid));
 	ft_putstr_fd(" ", 1);
 	ft_put_group(entry->st.st_gid);
+	ft_put_spaces(w->group - ft_group_len(entry->st.st_gid));
 	ft_putstr_fd(" ", 1);
+	ft_put_spaces(w->size - ft_numlen(entry->st.st_size));
 	ft_putnbr_fd(entry->st.st_size, 1);
 	ft_putstr_fd(" ", 1);
 	date = ctime(&entry->st.st_mtime);
