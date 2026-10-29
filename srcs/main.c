@@ -6,7 +6,7 @@
 /*   By: nicolsan <nicolsan@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/28 20:54:23 by nicolsan          #+#    #+#             */
-/*   Updated: 2026/10/29 10:13:21 by nicolsan         ###   ########.fr       */
+/*   Updated: 2026/10/29 10:25:00 by nicolsan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ int	main(int argc, char **argv)
 	(void)argv;
 	opts = (t_options){0, 0, 0, 0, 0};
 	list = ft_read_directory(".", &opts);
+	ft_sort_entries(&list, &opts);
 	while (list)
 	{
 		ft_putendl_fd(list->content, 1);
