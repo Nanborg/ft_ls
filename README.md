@@ -65,7 +65,6 @@ diff <(./ft_ls -l tests) <(LC_ALL=C ls -l tests)
 
 - [Project subject](en.subject.pdf).
 - Local manual pages: `man 1 ls`, `man 3 opendir`, `man 2 lstat`, `man 3 getpwuid`, `man 3 strftime`.
-- AI assistance was used to set up the repository structure, the Makefile and the file skeletons.
 
 ## 🗂️ Project Structure
 
