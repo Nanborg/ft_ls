@@ -6,7 +6,7 @@
 /*   By: nicolsan <nicolsan@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/28 20:54:23 by nicolsan          #+#    #+#             */
-/*   Updated: 2026/10/30 12:08:16 by nicolsan         ###   ########.fr       */
+/*   Updated: 2026/10/30 12:18:56 by nicolsan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,11 +147,29 @@ void	ft_print_link(t_entry *entry)
 	ft_putstr_fd(buf, 1);
 }
 
+//6 month to verify , because months can have 30/31/28 days
+void	ft_print_date(time_t file_time)
+{
+	time_t	now;
+	char	*date;
+
+	now = time(NULL);
+	date = ctime(&file_time);
+	if (file_time > now - 6 * 30 * 24 * 60 * 60
+		&& file_time < now + 60 * 60)
+		write(1, date + 4, 12);
+	else
+	{
+		write(1, date + 4, 7);
+		ft_putchar_fd(' ', 1);
+		write(1, date + 20, 4);
+	}
+}
+
 /* Print one entry in long format, columns padded by w */
 void	ft_print_long(t_entry *entry, t_width *w)
 {
 	char	str[11];
-	char	*date;
 
 	ft_mode_string(entry->st.st_mode, str);
 	ft_putstr_fd(str, 1);
@@ -167,8 +185,7 @@ void	ft_print_long(t_entry *entry, t_width *w)
 	ft_putstr_fd(" ", 1);
 	ft_print_size(entry, w);
 	ft_putstr_fd(" ", 1);
-	date = ctime(&entry->st.st_mtime);
-	write(1, date + 4, 12);
+	ft_print_date(entry->st.st_mtime);
 	ft_putstr_fd(" ", 1);
 	ft_putstr_fd(entry->name, 1);
 	ft_print_link(entry);
