@@ -14,7 +14,7 @@
 | --- | --- |
 | 🧠 Focus | Directory listing, file metadata, sorting, recursion |
 | 🛠️ Stack | C · cc · Makefile · libft |
-| 📄 Subject | [en.subject.pdf](en.subject.pdf) · version 4.0 |
+| 📄 Subject | [ft_ls_subject.pdf](ft_ls_subject.pdf) · version 4.0 |
 
 ---
 
@@ -63,7 +63,7 @@ diff <(./ft_ls -l tests) <(LC_ALL=C ls -l tests)
 
 ## 📚 Resources
 
-- [Project subject](en.subject.pdf).
+- [Project subject](ft_ls_subject.pdf).
 - Local manual pages: `man 1 ls`, `man 3 opendir`, `man 2 lstat`, `man 3 getpwuid`, `man 3 strftime`.
 
 ## 🗂️ Project Structure
