@@ -6,7 +6,7 @@
 /*   By: nicolsan <nicolsan@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/28 20:54:23 by nicolsan          #+#    #+#             */
-/*   Updated: 2026/10/29 22:05:56 by nicolsan         ###   ########.fr       */
+/*   Updated: 2026/10/30 12:04:44 by nicolsan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,5 +74,6 @@ int		ft_group_len(gid_t gid);
 void	ft_put_spaces(int n);
 void	ft_print_long(t_entry *entry, t_width *w);
 void	ft_print_size(t_entry *entry, t_width *w);
+void	ft_print_link(t_entry *entry);
 
 #endif

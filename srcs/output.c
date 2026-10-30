@@ -6,7 +6,7 @@
 /*   By: nicolsan <nicolsan@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/28 20:54:23 by nicolsan          #+#    #+#             */
-/*   Updated: 2026/10/29 22:10:12 by nicolsan         ###   ########.fr       */
+/*   Updated: 2026/10/30 12:08:16 by nicolsan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,13 @@ static void	ft_perm_chars(mode_t mode, char *str)
 		else
 			str[i] = '-';
 		i++;
+	}
+	if (mode & S_ISVTX)
+	{
+		if (mode & S_IXOTH)
+			str[8] = 't';
+		else
+			str[8] = 'T';
 	}
 }
 
@@ -124,6 +131,22 @@ void	ft_print_size(t_entry *entry, t_width *w)
 	ft_putnbr_fd(entry->st.st_size, 1);
 }
 
+/* Print ->target if entry is symlink */
+void	ft_print_link(t_entry *entry)
+{
+	char	buf[PATH_MAX];
+	ssize_t	len;
+
+	if (!S_ISLNK(entry->st.st_mode))
+		return ;
+	len = readlink(entry->path, buf, sizeof(buf) - 1);
+	if (len == -1)
+		return ;
+	buf[len] = '\0';
+	ft_putstr_fd(" -> ", 1);
+	ft_putstr_fd(buf, 1);
+}
+
 /* Print one entry in long format, columns padded by w */
 void	ft_print_long(t_entry *entry, t_width *w)
 {
@@ -148,5 +171,6 @@ void	ft_print_long(t_entry *entry, t_width *w)
 	write(1, date + 4, 12);
 	ft_putstr_fd(" ", 1);
 	ft_putstr_fd(entry->name, 1);
+	ft_print_link(entry);
 	ft_putstr_fd("\n", 1);
 }
