@@ -15,8 +15,17 @@ Chaque dossier prépare une famille de cas limites. À remplir petit à petit.
 | `dates/` | dates anciennes, récentes et identiques (pour `-t`) |
 | `noms_speciaux/` | noms longs, noms avec espaces, tailles très différentes |
 
-Comparaison systématique avec `ls` (même locale) :
+Le script `run.sh` suit les catégories de `CHECKLIST_ft_ls.md`. Il crée ses
+fixtures dans un dossier temporaire, compare stdout, stderr et codes de sortie
+avec `/bin/ls` en locale C (en normalisant seulement le nom du programme dans
+les messages d'erreur), puis supprime les fixtures. Il couvre les options
+obligatoires seules et combinées, les arguments fichiers/dossiers, les erreurs,
+les liens, les permissions, les dates, les dossiers vides, les noms longs et
+les fichiers nombreux.
 
 ```sh
-diff <(./ft_ls -l tests) <(LC_ALL=C ls -l tests)
+sh tests/run.sh
 ```
+
+Un échec indique une différence à examiner. Le test d'accès refusé est ignoré
+si le script tourne en root, car root peut lire le dossier malgré ses droits.

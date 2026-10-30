@@ -6,7 +6,7 @@
 /*   By: nicolsan <nicolsan@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/28 20:54:23 by nicolsan          #+#    #+#             */
-/*   Updated: 2026/10/29 13:51:11 by nicolsan         ###   ########.fr       */
+/*   Updated: 2026/10/30 13:10:09 by nicolsan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	ft_read_directory(const char *path, t_options *opts, t_list **list)
 	dir = opendir(path);
 	if (!dir)
 	{
-		ft_ls_error((char *)path);
+		ft_ls_directory_error((char *)path);
 		return (-1);
 	}
 	*list = NULL;

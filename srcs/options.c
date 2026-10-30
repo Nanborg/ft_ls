@@ -6,7 +6,7 @@
 /*   By: nicolsan <nicolsan@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/28 20:54:23 by nicolsan          #+#    #+#             */
-/*   Updated: 2026/10/29 12:26:22 by nicolsan         ###   ########.fr       */
+/*   Updated: 2026/10/30 13:02:12 by nicolsan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ static int	ft_parse_one(const char *arg, t_options *opts)
 			ft_putstr_fd("ft_ls: invalid option -- '", 2);
 			write(2, &arg[i], 1);
 			ft_putstr_fd("'\n", 2);
+			ft_putstr_fd("Try 'ls --help' for more information.\n", 2);
 			return (-1);
 		}
 		i++;

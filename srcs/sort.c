@@ -6,14 +6,14 @@
 /*   By: nicolsan <nicolsan@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/28 20:54:23 by nicolsan          #+#    #+#             */
-/*   Updated: 2026/10/29 12:35:43 by nicolsan         ###   ########.fr       */
+/*   Updated: 2026/10/30 13:11:22 by nicolsan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
 /* Compare two names in byte order */
-static int	ft_cmp_name(const char *a, const char *b)
+int	ft_cmp_name(const char *a, const char *b)
 {
 	return (ft_strncmp(a, b, ft_strlen(a) + 1));
 }

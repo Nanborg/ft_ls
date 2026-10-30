@@ -6,7 +6,7 @@
 /*   By: nicolsan <nicolsan@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/28 20:54:23 by nicolsan          #+#    #+#             */
-/*   Updated: 2026/10/30 12:18:56 by nicolsan         ###   ########.fr       */
+/*   Updated: 2026/10/30 13:11:46 by nicolsan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,32 +48,8 @@ static char	ft_type_char(mode_t mode)
 	return ('-');
 }
 
-/* Fill str with the rwx chars of mode */
-static void	ft_perm_chars(mode_t mode, char *str)
-{
-	const char	*rwx = "rwxrwxrwx";
-	int			i;
-
-	i = 0;
-	while (i < 9)
-	{
-		if (mode & (1 << (8 - i)))
-			str[i] = rwx[i];
-		else
-			str[i] = '-';
-		i++;
-	}
-	if (mode & S_ISVTX)
-	{
-		if (mode & S_IXOTH)
-			str[8] = 't';
-		else
-			str[8] = 'T';
-	}
-}
-
 /* Build the 10-char string of mode -rw-r--r-- */
-static void	ft_mode_string(mode_t mode, char *str)
+void	ft_mode_string(mode_t mode, char *str)
 {
 	str[0] = ft_type_char(mode);
 	ft_perm_chars(mode, str + 1);
@@ -81,7 +57,7 @@ static void	ft_mode_string(mode_t mode, char *str)
 }
 
 /* Print owner name / uid */
-static void	ft_put_owner(uid_t uid)
+void	ft_put_owner(uid_t uid)
 {
 	struct passwd	*pw;
 
@@ -90,104 +66,4 @@ static void	ft_put_owner(uid_t uid)
 		ft_putstr_fd(pw->pw_name, 1);
 	else
 		ft_putnbr_fd(uid, 1);
-}
-
-/* Print groupe name / gid */
-static void	ft_put_group(gid_t gid)
-{
-	struct group	*gr;
-
-	gr = getgrgid(gid);
-	if (gr)
-		ft_putstr_fd(gr->gr_name, 1);
-	else
-		ft_putnbr_fd(gid, 1);
-}
-
-/* Print n spaces */
-void	ft_put_spaces(int n)
-{
-	while (n > 0)
-	{
-		ft_putchar_fd(' ', 1);
-		n--;
-	}
-}
-
-/* Print size, (major, minor) */
-/* Print size, or "major, minor" for a device */
-void	ft_print_size(t_entry *entry, t_width *w)
-{
-	if (S_ISCHR(entry->st.st_mode) || S_ISBLK(entry->st.st_mode))
-	{
-		ft_put_spaces(w->major - ft_numlen(major(entry->st.st_rdev)));
-		ft_putnbr_fd(major(entry->st.st_rdev), 1);
-		ft_putstr_fd(", ", 1);
-		ft_put_spaces(w->minor - ft_numlen(minor(entry->st.st_rdev)));
-		ft_putnbr_fd(minor(entry->st.st_rdev), 1);
-		return ;
-	}
-	ft_put_spaces(w->size - ft_numlen(entry->st.st_size));
-	ft_putnbr_fd(entry->st.st_size, 1);
-}
-
-/* Print ->target if entry is symlink */
-void	ft_print_link(t_entry *entry)
-{
-	char	buf[PATH_MAX];
-	ssize_t	len;
-
-	if (!S_ISLNK(entry->st.st_mode))
-		return ;
-	len = readlink(entry->path, buf, sizeof(buf) - 1);
-	if (len == -1)
-		return ;
-	buf[len] = '\0';
-	ft_putstr_fd(" -> ", 1);
-	ft_putstr_fd(buf, 1);
-}
-
-//6 month to verify , because months can have 30/31/28 days
-void	ft_print_date(time_t file_time)
-{
-	time_t	now;
-	char	*date;
-
-	now = time(NULL);
-	date = ctime(&file_time);
-	if (file_time > now - 6 * 30 * 24 * 60 * 60
-		&& file_time < now + 60 * 60)
-		write(1, date + 4, 12);
-	else
-	{
-		write(1, date + 4, 7);
-		ft_putchar_fd(' ', 1);
-		write(1, date + 20, 4);
-	}
-}
-
-/* Print one entry in long format, columns padded by w */
-void	ft_print_long(t_entry *entry, t_width *w)
-{
-	char	str[11];
-
-	ft_mode_string(entry->st.st_mode, str);
-	ft_putstr_fd(str, 1);
-	ft_putstr_fd(" ", 1);
-	ft_put_spaces(w->nlink - ft_numlen(entry->st.st_nlink));
-	ft_putnbr_fd(entry->st.st_nlink, 1);
-	ft_putstr_fd(" ", 1);
-	ft_put_owner(entry->st.st_uid);
-	ft_put_spaces(w->owner - ft_owner_len(entry->st.st_uid));
-	ft_putstr_fd(" ", 1);
-	ft_put_group(entry->st.st_gid);
-	ft_put_spaces(w->group - ft_group_len(entry->st.st_gid));
-	ft_putstr_fd(" ", 1);
-	ft_print_size(entry, w);
-	ft_putstr_fd(" ", 1);
-	ft_print_date(entry->st.st_mtime);
-	ft_putstr_fd(" ", 1);
-	ft_putstr_fd(entry->name, 1);
-	ft_print_link(entry);
-	ft_putstr_fd("\n", 1);
 }

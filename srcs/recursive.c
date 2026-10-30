@@ -6,7 +6,7 @@
 /*   By: nicolsan <nicolsan@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/28 20:54:23 by nicolsan          #+#    #+#             */
-/*   Updated: 2026/10/29 18:45:56 by nicolsan         ###   ########.fr       */
+/*   Updated: 2026/10/29 21:48:46 by nicolsan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static int	ft_is_subdir(t_entry *entry)
 /* Print each subdir -> recursive */
 int	ft_recursive_display(t_list *entries, t_options *opts)
 {
-	t_entry *entry;
+	t_entry	*entry;
 	int		ret;
 
 	ret = 0;
