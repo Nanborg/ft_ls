@@ -1,4 +1,5 @@
 #!/bin/sh
+# Run automated comparisons against /bin/ls.
 
 set -u
 
