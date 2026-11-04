@@ -12,7 +12,7 @@
 
 #include "ft_ls.h"
 
-/* Return nbr of digits of n */
+// Renvoie le nombre de chiffres du nombre recu
 int	ft_numlen(unsigned long n)
 {
 	int	len;
@@ -26,7 +26,7 @@ int	ft_numlen(unsigned long n)
 	return (len);
 }
 
-/* Return len of owner / or uid */
+// Renvoie la longueur du nom du proprietaire ou de son UID
 int	ft_owner_len(uid_t uid)
 {
 	struct passwd	*pw;
@@ -37,6 +37,7 @@ int	ft_owner_len(uid_t uid)
 	return (ft_numlen(uid));
 }
 
+// Renvoie la longueur du nom du groupe ou de son GID
 int	ft_group_len(gid_t gid)
 {
 	struct group	*gr;
@@ -47,7 +48,7 @@ int	ft_group_len(gid_t gid)
 	return (ft_numlen(gid));
 }
 
-/* Max out each width with entry values */
+// Agrandit les largeurs des colonnes selon l'entree recue
 static void	ft_update_width(t_entry *entry, t_width *w)
 {
 	if (ft_numlen(entry->st.st_nlink) > w->nlink)
@@ -67,7 +68,8 @@ static void	ft_update_width(t_entry *entry, t_width *w)
 		w->size = ft_numlen(entry->st.st_size);
 }
 
-/* Compute the collumn width of entries */
+// Parcourt les entrees
+// Renvoie les largeurs necessaires au format long
 t_width	ft_get_width(t_list *entries)
 {
 	t_width	w;

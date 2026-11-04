@@ -12,24 +12,46 @@
 
 #include "ft_ls.h"
 
-/* Return if arguments must be swapped */
+// Recoit deux chemins et compare leurs dates de modification
+// Renvoie 0 si les dates sont egales ou la lecture echoue
+static int	ft_arg_time(char *a, char *b)
+{
+	struct stat	sa;
+	struct stat	sb;
+
+	if (lstat(a, &sa) == -1 || lstat(b, &sb) == -1)
+		return (0);
+	if (sa.st_mtim.tv_sec != sb.st_mtim.tv_sec)
+		return ((sb.st_mtim.tv_sec > sa.st_mtim.tv_sec)
+			- (sb.st_mtim.tv_sec < sa.st_mtim.tv_sec));
+	return ((sb.st_mtim.tv_nsec > sa.st_mtim.tv_nsec)
+		- (sb.st_mtim.tv_nsec < sa.st_mtim.tv_nsec));
+}
+
+// Place les fichiers avant les dossiers
+// Compare ensuite selon le nom ou la date et applique -r
 static int	ft_arg_must_swap(char *a, char *b, t_options *opts)
 {
 	int	a_dir;
 	int	b_dir;
 	int	cmp;
 
-	a_dir = ft_is_dir(a);
-	b_dir = ft_is_dir(b);
+	a_dir = ft_is_dir(a, opts);
+	b_dir = ft_is_dir(b, opts);
 	if (a_dir != b_dir)
 		return (a_dir > b_dir);
-	cmp = ft_cmp_name(a, b);
+	cmp = 0;
+	if (opts->t)
+		cmp = ft_arg_time(a, b);
+	if (cmp == 0)
+		cmp = ft_cmp_name(a, b);
 	if (opts->r)
 		return (cmp < 0);
 	return (cmp > 0);
 }
 
-/* Sort file arguments before directories */
+// Trie les arguments sur place selon les options
+// Garde les fichiers avant les dossiers
 void	ft_sort_arguments(int argc, char **argv, int idx, t_options *opts)
 {
 	int		i;

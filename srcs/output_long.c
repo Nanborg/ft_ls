@@ -14,7 +14,7 @@
 #include <limits.h>
 #include <sys/sysmacros.h>
 
-/* Print owner and group columns */
+// Affiche le proprietaire et le groupe avec leur alignement
 static void	ft_print_owners(t_entry *entry, t_width *w)
 {
 	struct group	*gr;
@@ -26,11 +26,11 @@ static void	ft_print_owners(t_entry *entry, t_width *w)
 	if (gr)
 		ft_putstr_fd(gr->gr_name, 1);
 	else
-		ft_putnbr_fd(entry->st.st_gid, 1);
+		ft_put_ulong(entry->st.st_gid);
 	ft_put_spaces(w->group - ft_group_len(entry->st.st_gid));
 }
 
-/* Print size, or major and minor for a device */
+// Affiche la taille du fichier ou les numeros du peripherique
 void	ft_print_size(t_entry *entry, t_width *w)
 {
 	if (S_ISCHR(entry->st.st_mode) || S_ISBLK(entry->st.st_mode))
@@ -43,10 +43,11 @@ void	ft_print_size(t_entry *entry, t_width *w)
 		return ;
 	}
 	ft_put_spaces(w->size - ft_numlen(entry->st.st_size));
-	ft_putnbr_fd(entry->st.st_size, 1);
+	ft_put_ulong(entry->st.st_size);
 }
 
-/* Print symlink target */
+// Recoit une entree
+// Affiche la cible si c'est un lien symbolique
 void	ft_print_link(t_entry *entry)
 {
 	char	buf[PATH_MAX];
@@ -62,7 +63,8 @@ void	ft_print_link(t_entry *entry)
 	ft_putstr_fd(buf, 1);
 }
 
-/* Print date in ls long format */
+// Recoit la date de modification
+// Affiche l'heure ou l'annee selon son anciennete
 static void	ft_print_date(time_t file_time)
 {
 	time_t	now;
@@ -70,8 +72,13 @@ static void	ft_print_date(time_t file_time)
 
 	now = time(NULL);
 	date = ctime(&file_time);
-	if (file_time > now - 6 * 30 * 24 * 60 * 60
-		&& file_time < now + 60 * 60)
+	if (!date)
+	{
+		ft_putstr_fd("????????????", 1);
+		return ;
+	}
+	if (difftime(now, file_time) < 31556952.0 / 2
+		&& difftime(now, file_time) >= 0)
 		write(1, date + 4, 12);
 	else
 	{
@@ -81,16 +88,23 @@ static void	ft_print_date(time_t file_time)
 	}
 }
 
-/* Print one entry in long format */
+// Recoit une entree et les largeurs des colonnes
+// Affiche ses informations au format long
 void	ft_print_long(t_entry *entry, t_width *w)
 {
 	char	str[11];
 
+	if (!entry->st.st_mode)
+	{
+		ft_putstr_fd("-????????? ? ? ? ?            ? ", 1);
+		ft_putendl_fd(entry->name, 1);
+		return ;
+	}
 	ft_mode_string(entry->st.st_mode, str);
 	ft_putstr_fd(str, 1);
 	ft_putstr_fd(" ", 1);
 	ft_put_spaces(w->nlink - ft_numlen(entry->st.st_nlink));
-	ft_putnbr_fd(entry->st.st_nlink, 1);
+	ft_put_ulong(entry->st.st_nlink);
 	ft_putstr_fd(" ", 1);
 	ft_print_owners(entry, w);
 	ft_putstr_fd(" ", 1);

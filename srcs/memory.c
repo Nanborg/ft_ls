@@ -12,6 +12,7 @@
 
 #include "ft_ls.h"
 
+// Libere le nom, le chemin et l'entree
 void	ft_free_entry(void *content)
 {
 	t_entry	*entry;
@@ -24,6 +25,7 @@ void	ft_free_entry(void *content)
 	free(entry);
 }
 
+// Libere toutes les entrees et les maillons de la liste
 void	ft_free_entries(t_list **entries)
 {
 	ft_lstclear(entries, ft_free_entry);

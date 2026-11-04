@@ -14,6 +14,7 @@
 #include <errno.h>
 #include <string.h>
 
+// Affiche le chemin du dossier et son erreur sur stderr
 void	ft_ls_directory_error(char *path)
 {
 	ft_putstr_fd("ft_ls: cannot open directory '", 2);
@@ -23,6 +24,7 @@ void	ft_ls_directory_error(char *path)
 	ft_putstr_fd("\n", 2);
 }
 
+// Affiche le chemin inaccessible et son erreur sur stderr
 void	ft_ls_error(char *context)
 {
 	ft_putstr_fd("ft_ls: cannot access '", 2);

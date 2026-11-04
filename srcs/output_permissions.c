@@ -12,7 +12,7 @@
 
 #include "ft_ls.h"
 
-/* Set setuid, setgid and sticky permission characters */
+// Ajoute les lettres s, S, t ou T selon les droits speciaux
 static void	ft_special_perm_chars(mode_t mode, char *str)
 {
 	if (mode & S_ISUID)
@@ -38,7 +38,8 @@ static void	ft_special_perm_chars(mode_t mode, char *str)
 	}
 }
 
-/* Fill str with the rwx chars of mode */
+// Recoit les permissions du fichier
+// Remplit les neuf caracteres rwx
 void	ft_perm_chars(mode_t mode, char *str)
 {
 	const char	*rwx = "rwxrwxrwx";

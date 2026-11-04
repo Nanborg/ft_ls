@@ -12,7 +12,8 @@
 
 #include "ft_ls.h"
 
-/* Print "total N" */
+// Additionne les blocs occupes par les entrees
+// Affiche le total en blocs de 1 Kio
 void	ft_print_total(t_list *entries)
 {
 	t_entry	*entry;
@@ -26,6 +27,6 @@ void	ft_print_total(t_list *entries)
 		entries = entries->next;
 	}
 	ft_putstr_fd("total ", 1);
-	ft_putnbr_fd(total / 2, 1);
+	ft_put_ulong(total / 2);
 	ft_putstr_fd("\n", 1);
 }

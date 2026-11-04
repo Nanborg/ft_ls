@@ -12,7 +12,8 @@
 
 #include "ft_ls.h"
 
-/* Set the option matching char */
+// Active l option correspondant au caractere recu
+// Renvoie -1 si elle est inconnue
 static int	ft_set_option(char c, t_options *opts)
 {
 	if (c == 'l')
@@ -30,7 +31,8 @@ static int	ft_set_option(char c, t_options *opts)
 	return (0);
 }
 
-/* Parse one "-xyz" arg */
+// Lit les lettres d'un argument comme -lart
+// Renvoie -1 si une option'est inconnue
 static int	ft_parse_one(const char *arg, t_options *opts)
 {
 	int	i;
@@ -51,19 +53,44 @@ static int	ft_parse_one(const char *arg, t_options *opts)
 	return (0);
 }
 
-/* Return the first non-option index */
+// Deplace une option avant les chemins
+// Conserve l'ordre des autres arguments
+static void	ft_move_option(char **argv, int from, int to)
+{
+	char	*option;
+
+	option = argv[from];
+	while (from > to)
+	{
+		argv[from] = argv[from - 1];
+		from--;
+	}
+	argv[to] = option;
+}
+
+// Lit les options, meme apres un chemin, et les place au debut
+// Arrete au separateur -- et renvoie l'indice du premier chemin
 int	ft_parse_options(int argc, char **argv, t_options *opts)
 {
 	int	i;
+	int	idx;
 
 	i = 1;
-	while (i < argc && argv[i][0] == '-' && argv[i][1])
+	idx = 1;
+	while (i < argc)
 	{
-		if (ft_strncmp(argv[i], "--", 3) == 0)
-			return (i + 1);
-		if (ft_parse_one(argv[i], opts) == -1)
-			return (-1);
+		if (argv[i][0] == '-' && argv[i][1])
+		{
+			if (ft_strncmp(argv[i], "--", 3) == 0)
+			{
+				ft_move_option(argv, i, idx);
+				return (idx + 1);
+			}
+			if (ft_parse_one(argv[i], opts) == -1)
+				return (-1);
+			ft_move_option(argv, i, idx++);
+		}
 		i++;
 	}
-	return (i);
+	return (idx);
 }

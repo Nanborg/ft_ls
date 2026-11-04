@@ -12,7 +12,7 @@
 
 #include "ft_ls.h"
 
-/* Long format with -l, else name */
+// Affiche chaque nom ou ses informations avec -l
 void	ft_print_entries(t_list *entries, t_options *opts)
 {
 	t_entry	*entry;
@@ -30,7 +30,7 @@ void	ft_print_entries(t_list *entries, t_options *opts)
 	}
 }
 
-/* Return the type letter of mode */
+// Renvoie la lettre correspondant au type du fichier
 static char	ft_type_char(mode_t mode)
 {
 	if (S_ISDIR(mode))
@@ -48,7 +48,8 @@ static char	ft_type_char(mode_t mode)
 	return ('-');
 }
 
-/* Build the 10-char string of mode -rw-r--r-- */
+// Recoit le type et les permissions du fichier
+// Construit la chaine comme -rw-r--r--
 void	ft_mode_string(mode_t mode, char *str)
 {
 	str[0] = ft_type_char(mode);
@@ -56,7 +57,7 @@ void	ft_mode_string(mode_t mode, char *str)
 	str[10] = '\0';
 }
 
-/* Print owner name / uid */
+// Affiche le nom du proprietaire ou son UID si le nom est inconnu
 void	ft_put_owner(uid_t uid)
 {
 	struct passwd	*pw;
@@ -65,5 +66,5 @@ void	ft_put_owner(uid_t uid)
 	if (pw)
 		ft_putstr_fd(pw->pw_name, 1);
 	else
-		ft_putnbr_fd(uid, 1);
+		ft_put_ulong(uid);
 }

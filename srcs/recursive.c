@@ -12,7 +12,8 @@
 
 #include "ft_ls.h"
 
-/* Verify if entry is a dir (. and ..) */
+// Verifie que l'entree est un dossier a parcourir
+// Exclut les liens symboliques, . et ..
 static int	ft_is_subdir(t_entry *entry)
 {
 	if (!S_ISDIR(entry->st.st_mode))
@@ -24,7 +25,8 @@ static int	ft_is_subdir(t_entry *entry)
 	return (1);
 }
 
-/* Print each subdir -> recursive */
+// Parcourt les sous-dossiers dans l'ordre de la liste
+// Renvoie 1 si un parcours echoue
 int	ft_recursive_display(t_list *entries, t_options *opts)
 {
 	t_entry	*entry;
@@ -36,9 +38,8 @@ int	ft_recursive_display(t_list *entries, t_options *opts)
 		entry = entries->content;
 		if (ft_is_subdir(entry))
 		{
-			ft_putchar_fd('\n', 1);
-			if (ft_print_dir(entry->path, opts, 1))
-				ret = 2;
+			if (ft_print_dir(entry->path, opts, 2))
+				ret = 1;
 		}
 		entries = entries->next;
 	}

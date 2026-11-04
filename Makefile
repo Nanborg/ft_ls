@@ -1,6 +1,6 @@
 NAME = ft_ls
 
-SRCS = main.c options.c arguments.c arguments_files.c directory.c file_info.c \
+SRCS = main.c options.c arguments.c arguments_files.c arguments_paths.c directory.c directory_read.c file_info.c \
 	output.c output_permissions.c output_format.c output_long.c \
 	sort.c sort_arguments.c recursive.c errors.c memory.c output_total.c widths.c
 SRCS_DIR = ./srcs

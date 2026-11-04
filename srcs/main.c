@@ -12,6 +12,8 @@
 
 #include "ft_ls.h"
 
+// Lit les options et lance l'affichage
+// Utilise le dossier courant si aucun chemin n'est donne
 int	main(int argc, char **argv)
 {
 	t_options	opts;

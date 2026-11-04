@@ -12,7 +12,7 @@
 
 #include "ft_ls.h"
 
-/* Print n spaces */
+// Affiche le nombre d'espaces demande
 void	ft_put_spaces(int n)
 {
 	while (n > 0)
@@ -20,4 +20,12 @@ void	ft_put_spaces(int n)
 		ft_putchar_fd(' ', 1);
 		n--;
 	}
+}
+
+// Affiche un entier positif sans le convertir en int
+void	ft_put_ulong(unsigned long n)
+{
+	if (n >= 10)
+		ft_put_ulong(n / 10);
+	ft_putchar_fd('0' + n % 10, 1);
 }

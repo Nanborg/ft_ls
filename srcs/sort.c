@@ -12,13 +12,14 @@
 
 #include "ft_ls.h"
 
-/* Compare two names in byte order */
+// Compare deux noms selon l'ordre des octets
 int	ft_cmp_name(const char *a, const char *b)
 {
 	return (ft_strncmp(a, b, ft_strlen(a) + 1));
 }
 
-/* a b comparaison (most recent first) */
+// Compare les dates de modification, nanosecondes comprises
+// Place la plus recente en premier
 static int	ft_cmp_time(t_entry *a, t_entry *b)
 {
 	time_t	ta;
@@ -33,7 +34,8 @@ static int	ft_cmp_time(t_entry *a, t_entry *b)
 	return ((tb > ta) - (tb < ta));
 }
 
-/* Return if a and b must be swapped */
+// Compare deux entrees selon -t et -r
+// Renvoie si leur ordre doit etre inverse
 static int	ft_must_swap(t_list *a, t_list *b, t_options *opts)
 {
 	int	cmp;
@@ -49,7 +51,8 @@ static int	ft_must_swap(t_list *a, t_list *b, t_options *opts)
 	return (cmp > 0);
 }
 
-/* Sort the list of names in byte order */
+// Trie la liste selon les options
+// Departage les dates identiques par le nom
 void	ft_sort_entries(t_list **entries, t_options *opts)
 {
 	t_list	*cur;
